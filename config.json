@@ -1,0 +1,21 @@
+﻿{
+    "enabled":  true,
+    "roomId":  1822071769,
+    "mentionNames":  [
+                         "Yuyu",
+                         "鱼鱼",
+                         "桌宠"
+                     ],
+    "onlyReplyMentions":  false,
+    "maxEventsPerPoll":  5,
+    "maxRepliesPerMinute":  4,
+    "speakPriority":  60,
+    "replyToGifts":  true,
+    "replyToEnter":  false,
+    "blockedWords":  [
+
+                     ],
+    "cookie":  "",
+    "cookieFile":  "cookie.txt",
+    "timeoutSeconds":  12
+}

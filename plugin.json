@@ -1,0 +1,131 @@
+{
+  "schemaVersion": "yuyu.plugin.v1",
+  "name": "bilibili_live",
+  "displayName": "B站直播弹幕",
+  "description": "Connect to a Bilibili live room and emit danmaku events for the desktop companion.",
+  "version": "0.1.0",
+  "author": "Yuyu-Mind",
+  "enabled": true,
+  "entry": "main.py",
+  "permissions": [
+    "network.live",
+    "live.danmaku"
+  ],
+  "context": {
+    "modes": {
+      "event": {
+        "enabled": true,
+        "action": "poll",
+        "priority": 35,
+        "maxEventsPerPoll": 5,
+        "maxRepliesPerPoll": 1
+      }
+    }
+  },
+  "defaultConfig": {
+    "enabled": false,
+    "roomId": 0,
+    "mentionNames": ["Yuyu", "鱼鱼", "桌宠"],
+    "onlyReplyMentions": true,
+    "maxEventsPerPoll": 5,
+    "maxRepliesPerMinute": 4,
+    "speakPriority": 60,
+    "replyToGifts": true,
+    "replyToEnter": false,
+    "blockedWords": [],
+    "cookie": "",
+    "cookieFile": "",
+    "timeoutSeconds": 12
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "enabled": {
+        "type": "boolean",
+        "description": "Whether to connect to the live room."
+      },
+      "roomId": {
+        "type": "integer",
+        "description": "Bilibili live room ID."
+      },
+      "mentionNames": {
+        "type": "array",
+        "items": {"type": "string"}
+      },
+      "onlyReplyMentions": {
+        "type": "boolean"
+      },
+      "maxEventsPerPoll": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 20
+      },
+      "maxRepliesPerMinute": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 30
+      },
+      "speakPriority": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "replyToGifts": {
+        "type": "boolean"
+      },
+      "replyToEnter": {
+        "type": "boolean"
+      },
+      "blockedWords": {
+        "type": "array",
+        "items": {"type": "string"}
+      },
+      "cookie": {
+        "type": "string",
+        "secret": true,
+        "description": "Optional Bilibili browser cookie. Empty means fallback to YUYU_BILIBILI_COOKIE or BILIBILI_COOKIE."
+      },
+      "cookieFile": {
+        "type": "string",
+        "secret": true,
+        "description": "Optional text file path containing the raw Bilibili cookie. Relative paths are resolved from this plugin directory."
+      },
+      "timeoutSeconds": {
+        "type": "integer",
+        "minimum": 3,
+        "maximum": 60
+      }
+    }
+  },
+  "actions": [
+    {
+      "name": "poll",
+      "description": "Start the Bilibili live connection if needed and return queued live events.",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "maxEvents": {"type": "integer"}
+        }
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "ok": {"type": "boolean"},
+          "summary": {"type": "string"},
+          "events": {"type": "array"},
+          "metadata": {"type": "object"}
+        },
+        "required": ["ok", "summary"]
+      }
+    },
+    {
+      "name": "status",
+      "description": "Return Bilibili live connection status.",
+      "inputSchema": {"type": "object", "additionalProperties": true},
+      "outputSchema": {"type": "object", "additionalProperties": true}
+    }
+  ]
+}
